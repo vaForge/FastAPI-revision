@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: ExpensePod
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:
+
+
+# start via docker compose up -d 
+#stop without deleting data docker compose down
+# Use these conn settings [Host:  localhost Port: 5432 Database: mydb Username: admin Password: secret123 ]
+#or use postgresql connection URL :
+    # postgresql://admin:secret123@localhost:5432/mydb
+
+
+
+#========================================================================
+# To run via docker CLI
+#========================================================================
+
+
+
+# docker run -d \                           run in background
+#   --name postgres-container \             
+#   -e POSTGRES_USER=admin \              
+#   -e POSTGRES_PASSWORD=secret123 \
+#   -e POSTGRES_DB=mydb \
+#   -p 5432:5432 \                          expose postgreSQl on port 5432
+#   -v postgres_data:/var/lib/postgresql \  persist database files in docker volume
+#   postgres:17
+
+#Connect to PostgreSql insider container
+# docker exec -it <name>(ExpensePod) psql -U admin -d mydb
