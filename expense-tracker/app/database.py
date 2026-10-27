@@ -1,7 +1,6 @@
 from collections.abc import Generator
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session,sessionmaker
+from sqlalchemy.orm import DeclarativeBase,Session,sessionmaker
 
 from app.config import settings
 
@@ -11,6 +10,10 @@ engine  = create_engine(
     settings.database_url,
     pool_pre_ping=True,
 )
+
+#Base class for all SQLAlchemy ORM modles
+class Base(DeclarativeBase):
+    pass
 
 
 #sessionlocal : a factory that creates individual db sessions
@@ -40,4 +43,11 @@ This distinction is important when building database-backed APIs.
 yield makes get_db() a generator dependency which fastapi can manaage using Depends(get_db)
 can use when we implement transaction
 pool_pre_ping = 1 checks pooled connections before using them , helping sqlalchemy detect stale connections
+"""
+
+"""
+    What's Base?
+    sqlalchemy uses this calss to register ORM models and collect theri table definitions
+    later Base.metadata will contain the table definitions for all models that inherit from it
+    
 """

@@ -33,7 +33,7 @@ volumes:
 # Use these conn settings [Host:  localhost Port: 5432 Database: mydb Username: admin Password: secret123 ]
 #or use postgresql connection URL :
     # postgresql://admin:secret123@localhost:5432/mydb
-
+#docker compose exec postgres psql -U admin -d mydb
 
 
 #========================================================================
