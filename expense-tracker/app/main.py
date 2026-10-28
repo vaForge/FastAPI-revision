@@ -42,5 +42,5 @@ async def transaction_not_found_handler(
 ):
     return JSONResponse(
         status_code=404,
-        content={"detail",str(exc)},
+        content={"detail": str(exc)},
     )
